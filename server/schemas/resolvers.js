@@ -53,8 +53,9 @@ const resolvers = {
                 console.log(book)
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $push: { savedBooks: book } }
-                    );
+                    { $push: { savedBooks: book } },
+                    { new: true }
+                    ).populate('savedBooks');
                     console.log(updatedUser)
                     return updatedUser;
             }
