@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { useMutation } from '@apollo/client'
 import { Form, Button, Alert } from 'react-bootstrap';
 
-import { createUser } from '../utils/API';
+// import { createUser } from '../utils/API';
+import { ADD_USER } from '../utils/mutations';
 import Auth from '../utils/auth';
 
-const SignupForm = () => {
+const SignupForm = (props) => {
+  const [addUser, { error }] = useMutation(ADD_USER);
   // set initial form state
   const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
   // set state for form validation
@@ -15,6 +18,7 @@ const SignupForm = () => {
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setUserFormData({ ...userFormData, [name]: value });
+    
   };
 
   const handleFormSubmit = async (event) => {
@@ -28,19 +32,38 @@ const SignupForm = () => {
     }
 
     try {
-      const response = await createUser(userFormData);
+        const { data } = await addUser({
+          variables: {
+            email: userFormData.email,
+            password: userFormData.password,
+            username: userFormData.username
+          },
+        });
+        const token = data.addUser.token;
+        const user = data.addUser.user;
+        console.log(user)
+        Auth.login(token);
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
-      const { token, user } = await response.json();
-      console.log(user);
-      Auth.login(token);
     } catch (err) {
-      console.error(err);
-      setShowAlert(true);
+      console.log(err)
     }
+
+
+
+    // try {
+    //   const response = await createUser(userFormData);
+
+    //   if (!response.ok) {
+    //     throw new Error('something went wrong!');
+    //   }
+
+    //   const { token, user } = await response.json();
+    //   console.log(user);
+    //   Auth.login(token);
+    // } catch (err) {
+    //   console.error(err);
+    //   setShowAlert(true);
+    // }
 
     setUserFormData({
       username: '',
