@@ -53,21 +53,22 @@ const resolvers = {
                 console.log(args)
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $push: {savedBooks: args.book} },
+                    { $push: { savedBooks: args.book } },
                     { new: true }
                     ).populate('savedBooks');
+
                     return updatedUser;
             }
             throw new AuthenticationError('You are not logged in')
         },
-        removeBook: async (parent, { bookId }) => {
+        removeBook: async (parent, args, context) => {
             if (context.user) {
-                const updatedUser = await User.findByIdAndUpdate(
+                console.log(args)
+                const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $pull: { savedBooks: bookId } },
+                    { $pull: { savedBooks: args } },
                     { new: true } 
-                );
-
+                    ).populate('savedBooks');
                 return updatedUser;
             }
             throw new AuthenticationError('You are not logged in')
