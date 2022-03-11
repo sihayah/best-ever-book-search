@@ -13,8 +13,8 @@ const bookSchema = new Schema({
   },
   // saved book id from GoogleBooks
   bookId: {
-    type: Types.ObjectId,
-    default: () => new Types.ObjectId()
+    type: String,
+    required: true
   },
   image: {
     type: String,
@@ -28,6 +28,6 @@ const bookSchema = new Schema({
   },
 });
 
-const Book = model('Book', bookSchema);
+// const Book = model('Book', bookSchema);
 
-module.exports = Book;
+module.exports = bookSchema;

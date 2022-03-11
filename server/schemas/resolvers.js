@@ -45,18 +45,17 @@ const resolvers = {
             const token = signToken(user);
             return { user, token };
         },
-        createBook: async (parent, args) => {
-            return Book.create(args)
-        },
-        saveBook: async (parent, { book }, context) => {
+        // createBook: async (parent, args) => {
+        //     return Book.create(args)
+        // },
+        saveBook: async (parent, { input }, context) => {
             if (context.user) {
-                console.log(book)
-                const updatedUser = await User.findOneAndUpdate(
+                console.log(input)
+                const updatedUser = await User.findByIdAndUpdate(
                     { _id: context.user._id },
-                    { $push: { savedBooks: book } },
+                    { $push: { savedBooks: input.bookId } },
                     { new: true }
                     ).populate('savedBooks');
-                    console.log(updatedUser)
                     return updatedUser;
             }
             throw new AuthenticationError('You are not logged in')
