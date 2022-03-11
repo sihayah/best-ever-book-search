@@ -48,12 +48,12 @@ const resolvers = {
         // createBook: async (parent, args) => {
         //     return Book.create(args)
         // },
-        saveBook: async (parent, { input }, context) => {
+        saveBook: async (parent, args, context) => {
             if (context.user) {
-                console.log(input)
-                const updatedUser = await User.findByIdAndUpdate(
+                console.log(args)
+                const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $push: { savedBooks: input.bookId } },
+                    { $push: {savedBooks: args.book} },
                     { new: true }
                     ).populate('savedBooks');
                     return updatedUser;
