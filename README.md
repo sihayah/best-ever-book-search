@@ -20,7 +20,7 @@
 
   <br>
 
-   <img width=50% src= 'landing.PNG'> 
+   <img width=50% src= 'landing.png'> 
   
   <br>
 
