@@ -102,7 +102,7 @@ Once sucessfully installed run following command:
 
 ## Usage
 
-From the hamburger menu at the top of the screen select, sign-up to create a user.
+From the hamburger menu at the top of the screen, select sign-up to create a user.
 
 <img src='./client/public/readmeimgs/ui1.png' width= 50%>
 
